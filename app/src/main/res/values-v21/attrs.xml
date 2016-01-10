@@ -6,4 +6,10 @@
         <attr name="circleColor" format="color" />
         <attr name="lineHeight" format="dimension" />
     </declare-styleable>
+
+    <declare-styleable name="MainProgressCircleView">
+        <attr name="InCircleColor" format="color" />
+        <attr name="OutCircleColor" format="color" />
+        <attr name="CircleDiameter" format="dimension" />
+    </declare-styleable>
 </resources>

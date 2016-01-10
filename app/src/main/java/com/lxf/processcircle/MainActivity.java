@@ -9,10 +9,12 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.lxf.processcircle.view.MainProgressCircleView;
 import com.lxf.processcircle.view.ProgressCircleView;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     private ProgressCircleView circle;
+    private MainProgressCircleView mainCricle;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +37,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void initView() {
         circle = (ProgressCircleView) findViewById(R.id.circle);
         circle.setOnClickListener(this);
+        mainCricle = (MainProgressCircleView) findViewById(R.id.mainCricle);
+        mainCricle.setOnClickListener(this);
     }
 
     @Override
@@ -42,6 +46,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()) {
             case R.id.circle:
                 circle.setProgress(80);
+                break;
+            case R.id.mainCricle:
+                mainCricle.setTargetAndNowNum(12455, 6800);
                 break;
         }
     }
