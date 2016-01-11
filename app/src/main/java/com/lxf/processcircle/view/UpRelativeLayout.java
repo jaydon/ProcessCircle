@@ -3,7 +3,6 @@ package com.lxf.processcircle.view;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewTreeObserver;
@@ -23,6 +22,7 @@ public class UpRelativeLayout extends RelativeLayout{
     private int mainNumHeight;
     private int mLastY;
     private int touchSlop; //最小滑动距离
+    private View mainWave;
     public UpRelativeLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
         mContext = context;
@@ -126,6 +126,8 @@ public class UpRelativeLayout extends RelativeLayout{
         super.onFinishInflate();
         mainCircle = findViewById(R.id.mainCircle);
         mainNum = findViewById(R.id.mainNum);
+        mainWave = findViewById(R.id.mainWave);
+        mainNum.setAlpha(0);
         mainCircle.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
@@ -158,6 +160,12 @@ public class UpRelativeLayout extends RelativeLayout{
             float alpha = (mScroller.getCurrY() / (float)mainCircleHeight);
             mainCircle.setAlpha(1 - alpha);
             mainNum.setAlpha(alpha);
+            mainWave.setAlpha(1 - alpha);
+            if(alpha < 1) {
+                mainWave.setVisibility(View.VISIBLE);
+            } else {
+                mainWave.setVisibility(View.GONE);
+            }
             //必须调用该方法，否则不一定能看到滚动效果
             postInvalidate();
 

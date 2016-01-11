@@ -19,13 +19,13 @@ public class DynamicWave extends View {
     private final int WAVE_PAINT_COLOR = 0x880000aa;
     // y = Asin(wx+b)+h
     private final float STRETCH_FACTOR_A = 20;
-    private int OFFSET_Y = 5;
+    private final int OFFSET_Y = 5;
     // 第一条水波移动速度
     private final int TRANSLATE_X_SPEED_ONE = 7;
     // 第二条水波移动速度
     private final int TRANSLATE_X_SPEED_TWO = 5;
     // 第三条水波移动速度
-    private final int TRANSLATE_X_SPEED_THREE = 10;
+    private final int TRANSLATE_X_SPEED_THREE = 2;
     private float mCycleFactorW;
 
     private int mTotalWidth, mTotalHeight;
@@ -49,7 +49,6 @@ public class DynamicWave extends View {
         mXOffsetSpeedOne = UiUtils.dipToPx(context, TRANSLATE_X_SPEED_ONE);
         mXOffsetSpeedTwo = UiUtils.dipToPx(context, TRANSLATE_X_SPEED_TWO);
         mXOffsetSpeedThree = UiUtils.dipToPx(context, TRANSLATE_X_SPEED_THREE);
-        OFFSET_Y = UiUtils.dipToPx(context, OFFSET_Y);
 
         // 初始绘制波纹的画笔
         mWavePaint = new Paint();
@@ -71,13 +70,13 @@ public class DynamicWave extends View {
         for (int i = 0; i < mTotalWidth; i++) {
 
             // 绘制第一条水波纹
-            canvas.drawLine(i, mResetOneYPositions[i], i, mTotalHeight, mWavePaint);
+            canvas.drawLine(i, mResetOneYPositions[i] + 20, i, mTotalHeight, mWavePaint);
 
             // 绘制第二条水波纹
-            canvas.drawLine(i, mResetTwoYPositions[i], i, mTotalHeight, mWavePaint);
+            canvas.drawLine(i, mResetTwoYPositions[i] + 20, i, mTotalHeight, mWavePaint);
 
             //绘制第三条水波纹
-            canvas.drawLine(i, mResetThreeYPositions[i], i, mTotalHeight, mWavePaint);
+            canvas.drawLine(i, mResetThreeYPositions[i] + 20, i, mTotalHeight, mWavePaint);
         }
 
         // 改变三条波纹的移动点
@@ -99,7 +98,13 @@ public class DynamicWave extends View {
 
 
         // 引发view重绘，一般可以考虑延迟20-30ms重绘，空出时间片
-        postInvalidate();
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                postInvalidate();
+            }
+        };
+        postDelayed(runnable, 30);
     }
 
     private void resetPositonY() {

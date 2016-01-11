@@ -17,11 +17,6 @@
             android:layout_height="300dp"
             android:paddingTop="20dp"
             app:CircleDiameter="200dp"/>
-        <com.lxf.processcircle.view.DynamicWave
-            android:id="@+id/mainWave"
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:layout_below="@id/mainCircle"/>
         <TextView
             android:id="@+id/mainNum"
             android:layout_width="wrap_content"
@@ -29,10 +24,15 @@
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
             android:layout_centerHorizontal="true"
-            android:layout_above="@id/mainWave"
-            android:text="luo"
+            android:layout_alignBottom="@id/mainCircle"
+            android:text="0步"
             android:textSize="40sp"
-            android:textColor="@android:color/white"/>
+            android:textColor="@android:color/white" />
+        <com.lxf.processcircle.view.DynamicWave
+            android:id="@+id/mainWave"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_below="@id/mainCircle"/>
         <ListView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
