@@ -11,5 +11,8 @@
         <attr name="InCircleColor" format="color" />
         <attr name="OutCircleColor" format="color" />
         <attr name="CircleDiameter" format="dimension" />
+        <attr name="BigText" format="dimension" />
+        <attr name="SmallText" format="dimension" />
+        <attr name="TextPadding" format="dimension" />
     </declare-styleable>
 </resources>

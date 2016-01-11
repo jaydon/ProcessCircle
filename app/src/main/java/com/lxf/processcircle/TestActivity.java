@@ -6,19 +6,16 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import com.lxf.processcircle.view.MainProgressCircleView;
 import com.lxf.processcircle.view.ProgressCircleView;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
-    private ProgressCircleView circle;
+public class TestActivity extends AppCompatActivity implements View.OnClickListener{
     private MainProgressCircleView mainCricle;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_test);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -35,8 +32,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initView() {
-        circle = (ProgressCircleView) findViewById(R.id.circle);
-        circle.setOnClickListener(this);
         mainCricle = (MainProgressCircleView) findViewById(R.id.mainCricle);
         mainCricle.setOnClickListener(this);
     }
@@ -44,9 +39,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.circle:
-                circle.setProgress(80);
-                break;
             case R.id.mainCricle:
                 mainCricle.setTargetAndNowNum(12455, 6800, 3.4f, 264);
                 break;

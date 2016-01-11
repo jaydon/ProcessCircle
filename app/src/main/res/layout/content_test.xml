@@ -21,15 +21,6 @@
             android:paddingTop="20dp"
             app:CircleDiameter="200dp"/>
 
-        <com.lxf.processcircle.view.ProgressCircleView
-            android:id="@+id/circle"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:layout_gravity="center_horizontal"
-            app:lineHeight="20dp"
-            app:lineColor="@color/colorAccent"
-            app:circleColor="@color/colorPrimary"
-            app:lineChangeColor="@color/colorPrimaryDark"/>
     </LinearLayout>
 </ScrollView>
 </RelativeLayout>
