@@ -6,37 +6,39 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_main" tools:context=".MainActivity">
-    <com.lxf.processcircle.view.UpRelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@android:color/darker_gray">
-        <com.lxf.processcircle.view.MainProgressCircleView
-            android:id="@+id/mainCircle"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:paddingTop="20dp"
-            app:CircleDiameter="200dp"/>
-        <TextView
-            android:id="@+id/mainNum"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:layout_centerHorizontal="true"
-            android:layout_alignBottom="@id/mainCircle"
-            android:text="0步"
-            android:textSize="40sp"
-            android:textColor="@android:color/white" />
-        <com.lxf.processcircle.view.DynamicWave
-            android:id="@+id/mainWave"
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:layout_below="@id/mainCircle"/>
-        <ListView
+        <com.lxf.processcircle.view.UpRelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/mainWave"/>
+            android:background="@android:color/darker_gray">
+            <com.lxf.processcircle.view.MainProgressCircleView
+                android:id="@+id/mainCircle"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:paddingTop="20dp"
+                app:CircleDiameter="200dp"/>
+            <TextView
+                android:id="@+id/mainNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:layout_centerHorizontal="true"
+                android:layout_alignBottom="@id/mainCircle"
+                android:text="0步"
+                android:textSize="40sp"
+                android:textColor="@android:color/white" />
+            <com.lxf.processcircle.view.DynamicWave
+                android:id="@+id/mainWave"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_below="@id/mainCircle"/>
+            <ListView
+                android:id="@+id/mainData"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/mainWave"
+                android:background="@android:color/holo_red_dark"/>
 
-    </com.lxf.processcircle.view.UpRelativeLayout>
+        </com.lxf.processcircle.view.UpRelativeLayout>
+
 </RelativeLayout>

@@ -2,10 +2,13 @@ package com.lxf.processcircle.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewTreeObserver;
+import android.view.animation.Interpolator;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Scroller;
 import com.lxf.processcircle.R;
@@ -17,8 +20,9 @@ public class UpRelativeLayout extends RelativeLayout{
     private Context mContext;
     private Scroller mScroller;
     private View mainCircle;
-    private int mainCircleHeight;
     private View mainNum;
+    private ListView mainData;
+    private int mainCircleHeight;
     private int mainNumHeight;
     private int mLastY;
     private int touchSlop; //最小滑动距离
@@ -127,6 +131,7 @@ public class UpRelativeLayout extends RelativeLayout{
         mainCircle = findViewById(R.id.mainCircle);
         mainNum = findViewById(R.id.mainNum);
         mainWave = findViewById(R.id.mainWave);
+        mainData = (ListView) findViewById(R.id.mainData);
         mainNum.setAlpha(0);
         mainCircle.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -135,6 +140,10 @@ public class UpRelativeLayout extends RelativeLayout{
                 mainCircleHeight = mainCircle.getHeight();
                 mainNumHeight = mainNum.getHeight();
                 mainCircleHeight -= mainNumHeight;
+                RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) mainData.getLayoutParams();
+                layoutParams.width = LayoutParams.MATCH_PARENT;
+                layoutParams.height = UpRelativeLayout.this.getHeight();
+                mainData.setLayoutParams(layoutParams);
             }
         });
     }
@@ -171,4 +180,14 @@ public class UpRelativeLayout extends RelativeLayout{
 
         }
     }
+
+    /**
+     * Interpolator defining the animation curve for mScroller
+     */
+    private static final Interpolator sInterpolator = new Interpolator() {
+        public float getInterpolation(float t) {
+            t -= 1.0f;
+            return t * t * t * t * t + 1.0f;
+        }
+    };
 }
