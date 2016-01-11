@@ -3,27 +3,25 @@ package com.lxf.processcircle.view;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Interpolator;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.Scroller;
 import com.lxf.processcircle.R;
 
 /**
  * Created by luoxf on 2016/1/11.
  */
-public class UpRelativeLayout extends RelativeLayout{
+public class UpRelativeLayout extends LinearLayout{
     private Context mContext;
     private Scroller mScroller;
     private View mainCircle;
     private View mainNum;
-    private ListView mainData;
+    private View mainData;
     private int mainCircleHeight;
     private int mainNumHeight;
     private int mLastY;
@@ -133,7 +131,7 @@ public class UpRelativeLayout extends RelativeLayout{
         mainCircle = findViewById(R.id.mainCircle);
         mainNum = findViewById(R.id.mainNum);
         mainWave = findViewById(R.id.mainWave);
-        mainData = (ListView) findViewById(R.id.mainData);
+        mainData = findViewById(R.id.mainData);
         mainNum.setAlpha(0);
         mainCircle.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -142,11 +140,10 @@ public class UpRelativeLayout extends RelativeLayout{
                 mainCircleHeight = mainCircle.getHeight();
                 mainNumHeight = mainNum.getHeight();
                 mainCircleHeight -= mainNumHeight;
-                RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) mainData.getLayoutParams();
+                LayoutParams layoutParams = (LayoutParams) mainData.getLayoutParams();
                 layoutParams.width = LayoutParams.MATCH_PARENT;
-                layoutParams.height = UpRelativeLayout.this.getHeight();
+                layoutParams.height = getHeight() - mainNumHeight;
                 mainData.setLayoutParams(layoutParams);
-                mainData.setMinimumHeight(UpRelativeLayout.this.getHeight());
             }
         });
     }
@@ -171,7 +168,6 @@ public class UpRelativeLayout extends RelativeLayout{
             scrollTo(mScroller.getCurrX(), mScroller.getCurrY());
             //必须调用该方法，否则不一定能看到滚动效果
             postInvalidate();
-
         }
     }
 
@@ -182,7 +178,7 @@ public class UpRelativeLayout extends RelativeLayout{
         mainCircle.setAlpha(1 - alpha);
         mainNum.setAlpha(alpha);
         mainWave.setAlpha(1 - alpha);
-        if(alpha < 1) {
+        if (alpha < 1) {
             mainWave.setVisibility(View.VISIBLE);
         } else {
             mainWave.setVisibility(View.GONE);
