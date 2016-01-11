@@ -15,7 +15,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
         <com.lxf.processcircle.view.MainProgressCircleView
-            android:id="@+id/mainCricle"
+            android:id="@+id/mainCircle"
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:paddingTop="20dp"

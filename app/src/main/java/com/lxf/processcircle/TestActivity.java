@@ -6,12 +6,15 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.TextView;
 
 import com.lxf.processcircle.view.MainProgressCircleView;
 import com.lxf.processcircle.view.ProgressCircleView;
 
 public class TestActivity extends AppCompatActivity implements View.OnClickListener{
-    private MainProgressCircleView mainCricle;
+    private MainProgressCircleView mainCircle;
+    private TextView mainNum;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,15 +35,17 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initView() {
-        mainCricle = (MainProgressCircleView) findViewById(R.id.mainCricle);
-        mainCricle.setOnClickListener(this);
+        mainCircle = (MainProgressCircleView) findViewById(R.id.mainCircle);
+        mainCircle.setOnClickListener(this);
+        mainNum = (TextView) findViewById(R.id.mainNum);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.mainCricle:
-                mainCricle.setTargetAndNowNum(12455, 6801, 3.4f, 264);
+            case R.id.mainCircle:
+                mainCircle.setTargetAndNowNum(12455, 6801, 3.4f, 264);
+                mainNum.setText("6801步");
                 break;
         }
     }
