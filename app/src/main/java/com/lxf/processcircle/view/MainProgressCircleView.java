@@ -2,7 +2,6 @@ package com.lxf.processcircle.view;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.animation.PropertyValuesHolder;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;

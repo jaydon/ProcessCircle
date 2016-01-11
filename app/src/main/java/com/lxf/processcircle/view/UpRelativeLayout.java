@@ -1,12 +1,14 @@
 package com.lxf.processcircle.view;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewTreeObserver;
+import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -37,7 +39,7 @@ public class UpRelativeLayout extends RelativeLayout{
      * 初始化属性
      */
     private void initView() {
-        mScroller = new Scroller(mContext);
+        mScroller = new Scroller(mContext, new AccelerateInterpolator());
         touchSlop = ViewConfiguration.get(mContext).getScaledTouchSlop();
     }
 
@@ -144,6 +146,7 @@ public class UpRelativeLayout extends RelativeLayout{
                 layoutParams.width = LayoutParams.MATCH_PARENT;
                 layoutParams.height = UpRelativeLayout.this.getHeight();
                 mainData.setLayoutParams(layoutParams);
+                mainData.setMinimumHeight(UpRelativeLayout.this.getHeight());
             }
         });
     }
@@ -157,8 +160,8 @@ public class UpRelativeLayout extends RelativeLayout{
 
     //调用此方法设置滚动的相对偏移
     public void smoothScrollBy(int dx, int dy) {
-        mScroller.startScroll(mScroller.getFinalX(), mScroller.getFinalY(), dx, dy);
-        invalidate();//这里必须调用invalidate()才能保证computeScroll()会被调用，否则不一定会刷新界面，看不到滚动效果
+        mScroller.startScroll(mScroller.getFinalX(), mScroller.getFinalY(), dx, dy, 0);
+        postInvalidate();//这里必须调用invalidate()才能保证computeScroll()会被调用，否则不一定会刷新界面，看不到滚动效果
     }
     @Override
     public void computeScroll() {
@@ -166,18 +169,23 @@ public class UpRelativeLayout extends RelativeLayout{
         if (mScroller.computeScrollOffset()) {
             //这里调用View的scrollTo()完成实际的滚动
             scrollTo(mScroller.getCurrX(), mScroller.getCurrY());
-            float alpha = (mScroller.getCurrY() / (float)mainCircleHeight);
-            mainCircle.setAlpha(1 - alpha);
-            mainNum.setAlpha(alpha);
-            mainWave.setAlpha(1 - alpha);
-            if(alpha < 1) {
-                mainWave.setVisibility(View.VISIBLE);
-            } else {
-                mainWave.setVisibility(View.GONE);
-            }
             //必须调用该方法，否则不一定能看到滚动效果
             postInvalidate();
 
+        }
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        float alpha = (mScroller.getCurrY() / (float)mainCircleHeight);
+        mainCircle.setAlpha(1 - alpha);
+        mainNum.setAlpha(alpha);
+        mainWave.setAlpha(1 - alpha);
+        if(alpha < 1) {
+            mainWave.setVisibility(View.VISIBLE);
+        } else {
+            mainWave.setVisibility(View.GONE);
         }
     }
 
