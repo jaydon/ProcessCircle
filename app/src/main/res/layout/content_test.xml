@@ -6,11 +6,7 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_main" tools:context=".MainActivity">
-<ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/holo_green_dark">
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -20,7 +16,15 @@
             android:layout_height="300dp"
             android:paddingTop="20dp"
             app:CircleDiameter="200dp"/>
+        <com.lxf.processcircle.view.DynamicWave
+            android:id="@+id/mainWave"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_below="@id/mainCricle"/>
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/mainWave"/>
 
-    </LinearLayout>
-</ScrollView>
+    </RelativeLayout>
 </RelativeLayout>

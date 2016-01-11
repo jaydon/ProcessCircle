@@ -12,6 +12,9 @@ import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.AccelerateInterpolator;
+
 import com.lxf.processcircle.R;
 import com.lxf.processcircle.utils.UiUtils;
 import java.math.BigDecimal;
@@ -300,22 +303,29 @@ public class MainProgressCircleView extends View{
         float temp = mNowNum / mTargetNum;
         progress = Math.min(temp, TOTAL_PROGRESS);
         if(null == mCircleAnimator) {
+            AccelerateInterpolator accelerateInterpolator =  new AccelerateInterpolator();
             mCircleAnimator = ObjectAnimator.ofFloat(this, "progress", 0, progress);
             mNowNumAnimator = ObjectAnimator.ofFloat(this, "mNowNum", 0, mNowNum);
             mTargetNumAnimator = ObjectAnimator.ofFloat(this, "mTargetNum", 0, mTargetNum);
             mKilometreAnimator = ObjectAnimator.ofFloat(this, "mKilometre", 0, mKilometre);
             mKcalAnimator = ObjectAnimator.ofFloat(this, "mKcal", 0, mKcal);
+            mCircleAnimator.setInterpolator(accelerateInterpolator);
+            mNowNumAnimator.setInterpolator(accelerateInterpolator);
+            mTargetNumAnimator.setInterpolator(accelerateInterpolator);
+            mKilometreAnimator.setInterpolator(accelerateInterpolator);
+            mKcalAnimator.setInterpolator(accelerateInterpolator);
+
         }
         if(!mCircleAnimator.isRunning()) {
-            mCircleAnimator.setDuration(2000);
+            mCircleAnimator.setDuration(1000);
             mCircleAnimator.start();
-            mNowNumAnimator.setDuration(2000);
+            mNowNumAnimator.setDuration(1000);
             mNowNumAnimator.start();
-            mTargetNumAnimator.setDuration(2000);
+            mTargetNumAnimator.setDuration(1000);
             mTargetNumAnimator.start();
-            mKilometreAnimator.setDuration(2000);
+            mKilometreAnimator.setDuration(1000);
             mKilometreAnimator.start();
-            mKcalAnimator.setDuration(2000);
+            mKcalAnimator.setDuration(1000);
             mKcalAnimator.start();
         }
     }

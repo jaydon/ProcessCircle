@@ -40,7 +40,7 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.mainCricle:
-                mainCricle.setTargetAndNowNum(12455, 6800, 3.4f, 264);
+                mainCricle.setTargetAndNowNum(12455, 6801, 3.4f, 264);
                 break;
         }
     }
