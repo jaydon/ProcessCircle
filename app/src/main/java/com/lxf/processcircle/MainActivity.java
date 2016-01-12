@@ -48,7 +48,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 circle.setProgress(80);
                 break;
             case R.id.mainCircle:
-                mainCircle.setTargetAndNowNum(12455, 6800, 3.4f, 264);
                 break;
         }
     }

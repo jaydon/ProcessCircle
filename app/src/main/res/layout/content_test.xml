@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.lxf.processcircle.view.UpRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.lxf.processcircle.view.UpLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainUpLinearLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/darker_gray"
@@ -25,11 +26,11 @@
             android:id="@+id/mainNum"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/mainCircle"
             android:layout_centerHorizontal="true"
+            android:layout_marginTop="75dp"
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
-            android:text="0步"
+            android:text="0"
             android:textColor="@android:color/white"
             android:textSize="40sp" />
     </RelativeLayout>
@@ -37,13 +38,13 @@
     <com.lxf.processcircle.view.WaveView
         android:id="@+id/mainWave"
         android:layout_width="match_parent"
-        android:layout_height="20dp"
+        android:layout_height="40dp"
         android:background="@android:color/white"
         app:above_wave_color="@color/holo_purple"
         app:blow_wave_color="@color/holo_purple"
         app:third_wave_color="@color/holo_purple"
         app:progress="100"
-        app:wave_height="middle"
+        app:wave_height="large"
         app:wave_hz="normal"
         app:wave_length="middle" />
 
@@ -53,5 +54,5 @@
         android:layout_height="match_parent"
         android:background="@android:color/holo_red_dark" />
 
-</com.lxf.processcircle.view.UpRelativeLayout>
+</com.lxf.processcircle.view.UpLinearLayout>
 

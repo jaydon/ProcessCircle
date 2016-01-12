@@ -14,6 +14,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
+import android.widget.TextView;
 import com.lxf.processcircle.R;
 import com.lxf.processcircle.utils.UiUtils;
 import java.math.BigDecimal;
@@ -44,6 +45,8 @@ public class MainProgressCircleView extends View{
     private ObjectAnimator mCircleAnimator, mNowNumAnimator, mTargetNumAnimator, mKilometreAnimator, mKcalAnimator; //属性动画
     private Bitmap icon;
     private int iconWidth, iconHeight;
+    private TextView mainNumTV;
+    private UpLinearLayout upLinearLayout;
 
     public MainProgressCircleView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -134,10 +137,15 @@ public class MainProgressCircleView extends View{
      * @param canvas
      */
     private void drawBg(Canvas canvas) {
+        int color = Color.WHITE;
         if(progress < 0.5) {
-            canvas.drawColor(Color.BLUE);
+            color = Color.BLUE;
         } else if(progress < 0.8) {
-            canvas.drawColor(Color.GREEN);
+            color = Color.GREEN;
+        }
+        canvas.drawColor(color);
+        if(null != upLinearLayout) {
+            upLinearLayout.setBackgroundColor(color);
         }
     }
 
@@ -189,7 +197,10 @@ public class MainProgressCircleView extends View{
         //计算大文字宽度
         int bigX = getTextWidth(mBigTextPaint, bigStr);
         int bigTextX = centerX - bigX / 2;
-        canvas.drawText(bigStr, bigTextX, bigTextY, mBigTextPaint);
+//        canvas.drawText(bigStr, bigTextX, bigTextY, mBigTextPaint);
+        if(null != mainNumTV) {
+            mainNumTV.setText(bigStr);
+        }
 
         //绘制目标步数
         String smallStr = "目标" + (int) mTargetNum + "步";
@@ -287,11 +298,12 @@ public class MainProgressCircleView extends View{
      * @param targerNum
      * @param nowNum
      */
-    public void setTargetAndNowNum(float targerNum, float nowNum, float kilometre, float kcal) {
+    public void setTargetAndNowNum(float targerNum, float nowNum, float kilometre, float kcal, TextView mainNumTV) {
         this.mTargetNum = targerNum;
         this.mNowNum = nowNum;
         this.mKilometre = kilometre;
         this.mKcal = kcal;
+        this.mainNumTV = mainNumTV;
         beginCircleAniminate();
     }
 
@@ -360,5 +372,9 @@ public class MainProgressCircleView extends View{
         float d = bd.floatValue();
         bd = null;
         return d;
+    }
+
+    public void setUPRelativeLayout(UpLinearLayout upLinearLayout) {
+        this.upLinearLayout = upLinearLayout;
     }
 }

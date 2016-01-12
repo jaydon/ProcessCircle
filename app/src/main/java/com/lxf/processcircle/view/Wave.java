@@ -9,12 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.lxf.processcircle.R;
+import com.lxf.processcircle.utils.UiUtils;
 
 // y=Asin(ωx+φ)+k
 class Wave extends View {
-    private final int WAVE_HEIGHT_LARGE = 16;
-    private final int WAVE_HEIGHT_MIDDLE = 8;
-    private final int WAVE_HEIGHT_LITTLE = 5;
+    private int WAVE_HEIGHT_LARGE = 16;
+    private int WAVE_HEIGHT_MIDDLE = 10;
+    private int WAVE_HEIGHT_LITTLE = 8;
 
     private final float WAVE_LENGTH_MULTIPLE_LARGE = 1.5f;
     private final float WAVE_LENGTH_MULTIPLE_MIDDLE = 1f;
@@ -46,6 +47,8 @@ class Wave extends View {
     private float mWaveMultiple;
     private float mWaveLength;
     private int mWaveHeight;
+    private int mBlowWaveHeight;
+    private int mThirdWaveHeight;
     private float mMaxRight;
     private float mWaveHz;
 
@@ -66,7 +69,11 @@ class Wave extends View {
 
     public Wave(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        WAVE_HEIGHT_LARGE = UiUtils.dipToPx(context, WAVE_HEIGHT_LARGE);
+        WAVE_HEIGHT_MIDDLE = UiUtils.dipToPx(context, WAVE_HEIGHT_MIDDLE);
+        WAVE_HEIGHT_LITTLE = UiUtils.dipToPx(context, WAVE_HEIGHT_LITTLE);
     }
+
 
     @Override
     protected void onDraw(Canvas canvas) {
@@ -103,11 +110,13 @@ class Wave extends View {
     public void initializeWaveSize(int waveMultiple, int waveHeight, int waveHz) {
         mWaveMultiple = getWaveMultiple(waveMultiple);
         mWaveHeight = getWaveHeight(waveHeight);
+        mBlowWaveHeight = getWaveHeight(WaveView.LITTLE);
+        mThirdWaveHeight = getWaveHeight(WaveView.MIDDLE);
         mWaveHz = getWaveHz(waveHz);
-        mBlowOffset = mWaveHeight * 0.4f;
-        mThirdOffSet = mWaveHeight * 0.6f;
+        mBlowOffset = mBlowWaveHeight * 0.4f;
+        mThirdOffSet = mThirdWaveHeight * 0.4f;
         ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                mWaveHeight * 2);
+                ViewGroup.LayoutParams.MATCH_PARENT);
         setLayoutParams(params);
     }
 
@@ -184,14 +193,14 @@ class Wave extends View {
 
         mBlowWavePath.moveTo(left, bottom);
         for (float x = 0; x <= mMaxRight; x += X_SPACE) {
-            y = (float) (mWaveHeight * Math.sin(omega * x + mBlowOffset) + mWaveHeight);
+            y = (float) (mBlowWaveHeight * Math.sin(omega * x + mBlowOffset) + mBlowWaveHeight);
             mBlowWavePath.lineTo(x, y);
         }
         mBlowWavePath.lineTo(right, bottom);
 
         mThirdWavePath.moveTo(left, bottom);
         for (float x = 0; x <= mMaxRight; x += X_SPACE) {
-            y = (float) (mWaveHeight * Math.sin(omega * x + mThirdOffSet) + mWaveHeight);
+            y = (float) (mThirdWaveHeight * Math.sin(omega * x + mThirdOffSet) + mThirdWaveHeight);
             mThirdWavePath.lineTo(x, y);
         }
         mThirdWavePath.lineTo(right, bottom);

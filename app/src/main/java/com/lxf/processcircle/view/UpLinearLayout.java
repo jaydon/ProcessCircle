@@ -8,26 +8,30 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateInterpolator;
-import android.view.animation.Interpolator;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Scroller;
+import android.widget.TextView;
 import com.lxf.processcircle.R;
+
 
 /**
  * Created by luoxf on 2016/1/11.
  */
-public class UpRelativeLayout extends LinearLayout{
+public class UpLinearLayout extends LinearLayout{
     private Context mContext;
     private Scroller mScroller;
-    private View mainCircle;
-    private View mainNum;
+    private MainProgressCircleView mainCircle;
+    private TextView mainNum;
     private View mainData;
     private int mainCircleHeight;
     private int mainNumHeight;
     private int mLastY;
     private int touchSlop; //最小滑动距离
     private View mainWave;
-    public UpRelativeLayout(Context context, AttributeSet attrs) {
+    private int mainNumMarginTop;
+
+    public UpLinearLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
         mContext = context;
         initView();
@@ -128,15 +132,15 @@ public class UpRelativeLayout extends LinearLayout{
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
-        mainCircle = findViewById(R.id.mainCircle);
-        mainNum = findViewById(R.id.mainNum);
+        mainCircle = (MainProgressCircleView) findViewById(R.id.mainCircle);
+        mainNum = (TextView) findViewById(R.id.mainNum);
         mainWave = findViewById(R.id.mainWave);
         mainData = findViewById(R.id.mainData);
-        mainNum.setAlpha(0);
         mainCircle.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
                 mainCircle.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                mainCircle.setUPRelativeLayout(UpLinearLayout.this);
                 mainCircleHeight = mainCircle.getHeight();
                 mainNumHeight = mainNum.getHeight();
                 mainCircleHeight -= mainNumHeight;
@@ -144,6 +148,9 @@ public class UpRelativeLayout extends LinearLayout{
                 layoutParams.width = LayoutParams.MATCH_PARENT;
                 layoutParams.height = getHeight() - mainNumHeight;
                 mainData.setLayoutParams(layoutParams);
+                RelativeLayout.LayoutParams mainNumLayoutParams = (RelativeLayout.LayoutParams) mainNum.getLayoutParams();
+                mainNumMarginTop = mainNumLayoutParams.topMargin;
+                mainNum.setLayoutParams(mainNumLayoutParams);
             }
         });
     }
@@ -176,23 +183,24 @@ public class UpRelativeLayout extends LinearLayout{
         super.onDraw(canvas);
         float alpha = (mScroller.getCurrY() / (float)mainCircleHeight);
         mainCircle.setAlpha(1 - alpha);
-        mainCircle.setScaleY(1- alpha);
-        mainNum.setAlpha(alpha);
-        mainWave.setAlpha(1 - alpha);
-        if (alpha < 1) {
-            mainWave.setVisibility(View.VISIBLE);
-        } else {
-            mainWave.setVisibility(View.GONE);
-        }
+//        mainCircle.setScaleY(1 - alpha);
+//        mainWave.setAlpha(1 - alpha);
+//        if (alpha < 1) {
+//            mainWave.setVisibility(View.VISIBLE);
+//        } else {
+//            mainWave.setVisibility(View.INVISIBLE);
+//        }
+        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) mainNum.getLayoutParams();
+        layoutParams.topMargin = mScroller.getFinalY() + (int) (mainNumMarginTop * (1 - alpha));
+        mainNum.setLayoutParams(layoutParams);
     }
 
     /**
-     * Interpolator defining the animation curve for mScroller
+     * 设置目标值和当前值，并更新进度，开始动画
+     * @param targerNum
+     * @param nowNum
      */
-    private static final Interpolator sInterpolator = new Interpolator() {
-        public float getInterpolation(float t) {
-            t -= 1.0f;
-            return t * t * t * t * t + 1.0f;
-        }
-    };
+    public void setTargetAndNowNum(float targerNum, float nowNum, float kilometre, float kcal) {
+        mainCircle.setTargetAndNowNum(targerNum, nowNum, kilometre, kcal, mainNum);
+    }
 }

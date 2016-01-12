@@ -10,10 +10,12 @@ import android.widget.TextView;
 
 import com.lxf.processcircle.view.MainProgressCircleView;
 import com.lxf.processcircle.view.ProgressCircleView;
+import com.lxf.processcircle.view.UpLinearLayout;
 
 public class TestActivity extends AppCompatActivity implements View.OnClickListener{
     private MainProgressCircleView mainCircle;
     private TextView mainNum;
+    private UpLinearLayout mainUpLinearLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,14 +40,14 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
         mainCircle = (MainProgressCircleView) findViewById(R.id.mainCircle);
         mainCircle.setOnClickListener(this);
         mainNum = (TextView) findViewById(R.id.mainNum);
+        mainUpLinearLayout = (UpLinearLayout) findViewById(R.id.mainUpLinearLayout);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.mainCircle:
-                mainCircle.setTargetAndNowNum(12455, 6801, 3.4f, 264);
-                mainNum.setText("6801步");
+                mainUpLinearLayout.setTargetAndNowNum(12455, 6801, 3.4f, 264);
                 break;
         }
     }

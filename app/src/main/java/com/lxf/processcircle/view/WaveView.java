@@ -63,7 +63,7 @@ public class WaveView extends LinearLayout {
         mSolid.setThirdWavePaint(mWave.getThirdWavePaint());
 
         addView(mWave);
-        addView(mSolid);
+//        addView(mSolid);
         setProgress(mProgress);
     }
 
