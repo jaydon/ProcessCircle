@@ -176,6 +176,7 @@ public class UpRelativeLayout extends LinearLayout{
         super.onDraw(canvas);
         float alpha = (mScroller.getCurrY() / (float)mainCircleHeight);
         mainCircle.setAlpha(1 - alpha);
+        mainCircle.setScaleY(1- alpha);
         mainNum.setAlpha(alpha);
         mainWave.setAlpha(1 - alpha);
         if (alpha < 1) {
