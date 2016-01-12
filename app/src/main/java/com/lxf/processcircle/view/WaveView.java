@@ -28,7 +28,6 @@ public class WaveView extends LinearLayout {
     private int mWaveToTop;
 
     private Wave mWave;
-    private Solid mSolid;
 
     private final int DEFAULT_ABOVE_WAVE_COLOR = Color.WHITE;
     private final int DEFAULT_BLOW_WAVE_COLOR = Color.WHITE;
@@ -56,14 +55,7 @@ public class WaveView extends LinearLayout {
         mWave.setBlowWaveColor(mBlowWaveColor);
         mWave.setThirdWaveColor(mThirdWaveColor);
         mWave.initializePainters();
-
-        mSolid = new Solid(context, null);
-        mSolid.setAboveWavePaint(mWave.getAboveWavePaint());
-        mSolid.setBlowWavePaint(mWave.getBlowWavePaint());
-        mSolid.setThirdWavePaint(mWave.getThirdWavePaint());
-
         addView(mWave);
-//        addView(mSolid);
         setProgress(mProgress);
     }
 

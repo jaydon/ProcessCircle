@@ -1,7 +1,6 @@
 package com.lxf.processcircle.view;
 
 import android.content.Context;
-import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -171,9 +170,7 @@ public class UpLinearLayout extends LinearLayout{
         if (mScroller.computeScrollOffset()) {
             float alpha = (mScroller.getCurrY() / (float)mainCircleHeight);
             mainCircle.setAlpha(1 - alpha);
-            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) mainNum.getLayoutParams();
-            layoutParams.topMargin = mScroller.getFinalY() + Math.round(mainNumMarginTop * (1 - alpha));
-            mainNum.setLayoutParams(layoutParams);
+            mainNum.setY(mainNumMarginTop + (mainCircleHeight - mainNumMarginTop) * alpha);
 //        mainCircle.setScaleY(1 - alpha);
 //        mainWave.setAlpha(1 - alpha);
 //        if (alpha < 1) {
@@ -181,11 +178,6 @@ public class UpLinearLayout extends LinearLayout{
 //        } else {
 //            mainWave.setVisibility(View.INVISIBLE);
 //        }
-//            if(mScroller.getFinalY() >= mainNumMarginTop) {
-//                mainNum.setTop(mainCircleHeight);
-//            } else {
-//                mainNum.setTop(Math.round(mainNumMarginTop * (1 - alpha)));
-//            }
             //这里调用View的scrollTo()完成实际的滚动
             scrollTo(mScroller.getCurrX(), mScroller.getCurrY());
             postInvalidate();
