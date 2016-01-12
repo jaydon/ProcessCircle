@@ -148,9 +148,7 @@ public class UpLinearLayout extends LinearLayout{
                 layoutParams.width = LayoutParams.MATCH_PARENT;
                 layoutParams.height = getHeight() - mainNumHeight;
                 mainData.setLayoutParams(layoutParams);
-                RelativeLayout.LayoutParams mainNumLayoutParams = (RelativeLayout.LayoutParams) mainNum.getLayoutParams();
-                mainNumMarginTop = mainNumLayoutParams.topMargin;
-                mainNum.setLayoutParams(mainNumLayoutParams);
+                mainNumMarginTop = mainNum.getTop();
             }
         });
     }
@@ -171,18 +169,11 @@ public class UpLinearLayout extends LinearLayout{
     public void computeScroll() {
         //先判断mScroller滚动是否完成
         if (mScroller.computeScrollOffset()) {
-            //这里调用View的scrollTo()完成实际的滚动
-            scrollTo(mScroller.getCurrX(), mScroller.getCurrY());
-            //必须调用该方法，否则不一定能看到滚动效果
-            postInvalidate();
-        }
-    }
-
-    @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-        float alpha = (mScroller.getCurrY() / (float)mainCircleHeight);
-        mainCircle.setAlpha(1 - alpha);
+            float alpha = (mScroller.getCurrY() / (float)mainCircleHeight);
+            mainCircle.setAlpha(1 - alpha);
+            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) mainNum.getLayoutParams();
+            layoutParams.topMargin = mScroller.getFinalY() + Math.round(mainNumMarginTop * (1 - alpha));
+            mainNum.setLayoutParams(layoutParams);
 //        mainCircle.setScaleY(1 - alpha);
 //        mainWave.setAlpha(1 - alpha);
 //        if (alpha < 1) {
@@ -190,9 +181,15 @@ public class UpLinearLayout extends LinearLayout{
 //        } else {
 //            mainWave.setVisibility(View.INVISIBLE);
 //        }
-        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) mainNum.getLayoutParams();
-        layoutParams.topMargin = mScroller.getFinalY() + (int) (mainNumMarginTop * (1 - alpha));
-        mainNum.setLayoutParams(layoutParams);
+//            if(mScroller.getFinalY() >= mainNumMarginTop) {
+//                mainNum.setTop(mainCircleHeight);
+//            } else {
+//                mainNum.setTop(Math.round(mainNumMarginTop * (1 - alpha)));
+//            }
+            //这里调用View的scrollTo()完成实际的滚动
+            scrollTo(mScroller.getCurrX(), mScroller.getCurrY());
+            postInvalidate();
+        }
     }
 
     /**
