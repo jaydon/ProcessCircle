@@ -26,18 +26,22 @@ class Wave extends View {
 
     public final int DEFAULT_ABOVE_WAVE_ALPHA = 50;
     public final int DEFAULT_BLOW_WAVE_ALPHA = 30;
+    public final int DEFAULT_THIRD_WAVE_ALPHA = 70;
 
     private final float X_SPACE = 20;
     private final double PI2 = 2 * Math.PI;
 
     private Path mAboveWavePath = new Path();
     private Path mBlowWavePath = new Path();
+    private Path mThirdWavePath = new Path();
 
     private Paint mAboveWavePaint = new Paint();
     private Paint mBlowWavePaint = new Paint();
+    private Paint mThirdWavePaint = new Paint();
 
     private int mAboveWaveColor;
     private int mBlowWaveColor;
+    private int mThirdWaveColor;
 
     private float mWaveMultiple;
     private float mWaveLength;
@@ -48,6 +52,7 @@ class Wave extends View {
     // wave animation
     private float mAboveOffset = 0.0f;
     private float mBlowOffset;
+    private float mThirdOffSet;
 
     private RefreshProgressRunnable mRefreshProgressRunnable;
 
@@ -68,6 +73,7 @@ class Wave extends View {
         super.onDraw(canvas);
         canvas.drawPath(mBlowWavePath, mBlowWavePaint);
         canvas.drawPath(mAboveWavePath, mAboveWavePaint);
+        canvas.drawPath(mThirdWavePath, mThirdWavePaint);
     }
 
     public void setAboveWaveColor(int aboveWaveColor) {
@@ -78,6 +84,10 @@ class Wave extends View {
         this.mBlowWaveColor = blowWaveColor;
     }
 
+    public void setThirdWaveColor(int thirdWaveColor) {
+        this.mThirdWaveColor = thirdWaveColor;
+    }
+
     public Paint getAboveWavePaint() {
         return mAboveWavePaint;
     }
@@ -86,11 +96,16 @@ class Wave extends View {
         return mBlowWavePaint;
     }
 
+    public Paint getThirdWavePaint() {
+        return mThirdWavePaint;
+    }
+
     public void initializeWaveSize(int waveMultiple, int waveHeight, int waveHz) {
         mWaveMultiple = getWaveMultiple(waveMultiple);
         mWaveHeight = getWaveHeight(waveHeight);
         mWaveHz = getWaveHz(waveHz);
         mBlowOffset = mWaveHeight * 0.4f;
+        mThirdOffSet = mWaveHeight * 0.6f;
         ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 mWaveHeight * 2);
         setLayoutParams(params);
@@ -106,6 +121,11 @@ class Wave extends View {
         mBlowWavePaint.setAlpha(DEFAULT_BLOW_WAVE_ALPHA);
         mBlowWavePaint.setStyle(Paint.Style.FILL);
         mBlowWavePaint.setAntiAlias(true);
+
+        mThirdWavePaint.setColor(mThirdWaveColor);
+        mThirdWavePaint.setAlpha(DEFAULT_THIRD_WAVE_ALPHA);
+        mThirdWavePaint.setStyle(Paint.Style.FILL);
+        mThirdWavePaint.setAntiAlias(true);
     }
 
     private float getWaveMultiple(int size) {
@@ -150,6 +170,7 @@ class Wave extends View {
     private void calculatePath() {
         mAboveWavePath.reset();
         mBlowWavePath.reset();
+        mThirdWavePath.reset();
 
         getWaveOffset();
 
@@ -167,6 +188,13 @@ class Wave extends View {
             mBlowWavePath.lineTo(x, y);
         }
         mBlowWavePath.lineTo(right, bottom);
+
+        mThirdWavePath.moveTo(left, bottom);
+        for (float x = 0; x <= mMaxRight; x += X_SPACE) {
+            y = (float) (mWaveHeight * Math.sin(omega * x + mThirdOffSet) + mWaveHeight);
+            mThirdWavePath.lineTo(x, y);
+        }
+        mThirdWavePath.lineTo(right, bottom);
     }
 
     @Override
@@ -219,6 +247,12 @@ class Wave extends View {
             mAboveOffset = 0;
         } else {
             mAboveOffset += mWaveHz;
+        }
+
+        if (mThirdOffSet > Float.MAX_VALUE - 100) {
+            mThirdOffSet = 0;
+        } else {
+            mThirdOffSet += mWaveHz;
         }
     }
 

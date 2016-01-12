@@ -20,11 +20,11 @@ public class WaveView extends LinearLayout {
 
     private int mAboveWaveColor;
     private int mBlowWaveColor;
+    private int mThirdWaveColor;
     private int mProgress;
     private int mWaveHeight;
     private int mWaveMultiple;
     private int mWaveHz;
-
     private int mWaveToTop;
 
     private Wave mWave;
@@ -32,6 +32,7 @@ public class WaveView extends LinearLayout {
 
     private final int DEFAULT_ABOVE_WAVE_COLOR = Color.WHITE;
     private final int DEFAULT_BLOW_WAVE_COLOR = Color.WHITE;
+    private final int DEFAULT_THIRD_WAVE_COLOR = Color.WHITE;
     private final int DEFAULT_PROGRESS = 80;
 
     public WaveView(Context context, AttributeSet attrs) {
@@ -41,6 +42,8 @@ public class WaveView extends LinearLayout {
         final TypedArray attributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.WaveView, R.attr.waveViewStyle, 0);
         mAboveWaveColor = attributes.getColor(R.styleable.WaveView_above_wave_color, DEFAULT_ABOVE_WAVE_COLOR);
         mBlowWaveColor = attributes.getColor(R.styleable.WaveView_blow_wave_color, DEFAULT_BLOW_WAVE_COLOR);
+        mThirdWaveColor = attributes.getColor(R.styleable.WaveView_third_wave_color, DEFAULT_THIRD_WAVE_COLOR);
+
         mProgress = attributes.getInt(R.styleable.WaveView_progress, DEFAULT_PROGRESS);
         mWaveHeight = attributes.getInt(R.styleable.WaveView_wave_height, MIDDLE);
         mWaveMultiple = attributes.getInt(R.styleable.WaveView_wave_length, LARGE);
@@ -51,11 +54,13 @@ public class WaveView extends LinearLayout {
         mWave.initializeWaveSize(mWaveMultiple, mWaveHeight, mWaveHz);
         mWave.setAboveWaveColor(mAboveWaveColor);
         mWave.setBlowWaveColor(mBlowWaveColor);
+        mWave.setThirdWaveColor(mThirdWaveColor);
         mWave.initializePainters();
 
         mSolid = new Solid(context, null);
         mSolid.setAboveWavePaint(mWave.getAboveWavePaint());
         mSolid.setBlowWavePaint(mWave.getBlowWavePaint());
+        mSolid.setThirdWavePaint(mWave.getThirdWavePaint());
 
         addView(mWave);
         addView(mSolid);

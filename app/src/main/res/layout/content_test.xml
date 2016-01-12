@@ -41,8 +41,9 @@
         android:background="@android:color/white"
         app:above_wave_color="@color/holo_purple"
         app:blow_wave_color="@color/holo_purple"
-        app:progress="80"
-        app:wave_height="little"
+        app:third_wave_color="@color/holo_purple"
+        app:progress="100"
+        app:wave_height="middle"
         app:wave_hz="normal"
         app:wave_length="middle" />
 
