@@ -86,7 +86,7 @@ class Wave extends View {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        WAVE_HEIGHT_LARGE = (int) (h * 0.6);
+        WAVE_HEIGHT_LARGE = h;
         WAVE_HEIGHT_MIDDLE = (int) (h * 0.4);
         WAVE_HEIGHT_LITTLE = (int) (h * 0.2);
         mWaveHeight = getWaveHeight(WaveView.LARGE);

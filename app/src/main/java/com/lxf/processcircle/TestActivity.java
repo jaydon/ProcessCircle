@@ -7,10 +7,13 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.lxf.processcircle.view.MainProgressCircleView;
 import com.lxf.processcircle.view.PullToRefreshListView;
 import com.lxf.processcircle.view.UpLinearLayout;
@@ -52,7 +55,7 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
         mainCircle.setOnClickListener(this);
         mainNum = (TextView) findViewById(R.id.mainNum);
         mainUpLinearLayout = (UpLinearLayout) findViewById(R.id.mainUpLinearLayout);
-        mPullListView = (PullToRefreshListView) findViewById(R.id.mainData);
+        mPullListView = (PullToRefreshListView) findViewById(R.id.mainListView);
     }
 
     private void initData() {
@@ -71,6 +74,12 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
                 android.R.layout.simple_list_item_1, mListItems);
 
         mPullListView.setAdapter(adapter);
+        mPullListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(TestActivity.this, position + "", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -101,6 +110,7 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
             mPullListView.postDelayed(new Runnable() {
                 @Override
                 public void run() {
+                    mPullListView.setLastUpdated(getString(R.string.pull_to_refresh_pull_label));
                     mListItems.addFirst("Added after refresh...");
                     adapter.notifyDataSetChanged();
                     // Call onRefreshComplete when the list has been refreshed.

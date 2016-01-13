@@ -33,31 +33,34 @@
             android:textColor="@android:color/white"
             android:textSize="40sp" />
     </RelativeLayout>
-
-    <com.lxf.processcircle.view.WaveView
-        android:id="@+id/mainWave"
+    <RelativeLayout
+        android:id="@+id/mainData"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:background="@android:color/white"
-        app:above_wave_color="@color/holo_purple"
-        app:blow_wave_color="@color/holo_purple"
-        app:third_wave_color="@color/holo_purple"
-        app:progress="100"
-        app:wave_height="large"
-        app:wave_hz="normal"
-        app:wave_length="middle" />
-
-
+        android:layout_height="match_parent">
         <com.lxf.processcircle.view.PullToRefreshListView
-            android:id="@+id/mainData"
+            android:id="@+id/mainListView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@android:color/holo_red_dark"
+            android:background="@android:color/white"
             android:divider="@null"
             android:listSelector="@android:color/transparent"
             android:overScrollMode="never"
-            android:scrollingCache="false">
+            android:scrollingCache="false"
+            android:scrollbars="none"
+            android:paddingTop="10dp"/>
+        <com.lxf.processcircle.view.WaveView
+            android:id="@+id/mainWave"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            app:above_wave_color="@color/holo_purple"
+            app:blow_wave_color="@color/holo_purple"
+            app:third_wave_color="@color/holo_purple"
+            app:progress="100"
+            app:wave_height="large"
+            app:wave_hz="slow"
+            app:wave_length="middle" />
+    </RelativeLayout>
 
-        </com.lxf.processcircle.view.PullToRefreshListView>
+
 </com.lxf.processcircle.view.UpLinearLayout>
 

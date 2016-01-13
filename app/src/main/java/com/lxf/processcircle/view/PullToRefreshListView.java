@@ -8,8 +8,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.LinearInterpolator;
-import android.view.animation.RotateAnimation;
 import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
@@ -42,13 +40,9 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
     private TextView mRefreshViewText;
     private ImageView mRefreshViewImage;
     private ProgressBar mRefreshViewProgress;
-    private TextView mRefreshViewLastUpdated;
 
     private int mCurrentScrollState;
     private int mRefreshState;
-
-    private RotateAnimation mFlipAnimation;
-    private RotateAnimation mReverseFlipAnimation;
 
     private int mRefreshViewHeight;
     private int mRefreshOriginalTopPadding;
@@ -72,19 +66,6 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
     }
 
     private void init(Context context) {
-        // Load all of the animations we need in code rather than through XML
-        mFlipAnimation = new RotateAnimation(0, -180,
-                RotateAnimation.RELATIVE_TO_SELF, 0.5f,
-                RotateAnimation.RELATIVE_TO_SELF, 0.5f);
-        mFlipAnimation.setInterpolator(new LinearInterpolator());
-        mFlipAnimation.setDuration(250);
-        mFlipAnimation.setFillAfter(true);
-        mReverseFlipAnimation = new RotateAnimation(-180, 0,
-                RotateAnimation.RELATIVE_TO_SELF, 0.5f,
-                RotateAnimation.RELATIVE_TO_SELF, 0.5f);
-        mReverseFlipAnimation.setInterpolator(new LinearInterpolator());
-        mReverseFlipAnimation.setDuration(250);
-        mReverseFlipAnimation.setFillAfter(true);
 
         mInflater = (LayoutInflater) context.getSystemService(
                 Context.LAYOUT_INFLATER_SERVICE);
@@ -97,8 +78,6 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
             (ImageView) mRefreshView.findViewById(R.id.pull_to_refresh_image);
         mRefreshViewProgress =
             (ProgressBar) mRefreshView.findViewById(R.id.pull_to_refresh_progress);
-        mRefreshViewLastUpdated =
-            (TextView) mRefreshView.findViewById(R.id.pull_to_refresh_updated_at);
 
         mRefreshViewImage.setMinimumHeight(50);
         mRefreshView.setOnClickListener(new OnClickRefreshListener());
@@ -152,6 +131,9 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
      */
     public void setLastUpdated(CharSequence lastUpdated) {
     	mRefreshViewText.setText(lastUpdated);
+        mRefreshViewProgress.setVisibility(View.INVISIBLE);
+        mRefreshViewImage.setVisibility(View.VISIBLE);
+        mRefreshViewImage.setImageResource(R.mipmap.sport_refresh_success);
 //        if (lastUpdated != null) {
 //            mRefreshViewLastUpdated.setVisibility(View.VISIBLE);
 //            mRefreshViewLastUpdated.setText(lastUpdated);
@@ -212,7 +194,7 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
                 // simulate a more resistant effect during pull.
 //                int topPadding = (int) (((historicalY - mLastMotionY)
 //                        - mRefreshViewHeight) / 1.7);
-                int topPadding = historicalY - mLastMotionY;
+                int topPadding = (int) ((historicalY - mLastMotionY) * 0.7);
 
                 mRefreshView.setPadding(
                         mRefreshView.getPaddingLeft(),
@@ -246,9 +228,7 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
             // Set refresh view text to the pull label
             mRefreshViewText.setText(R.string.pull_to_refresh_tap_label);
             // Replace refresh drawable with arrow drawable
-            mRefreshViewImage.setImageResource(R.mipmap.ic_pulltorefresh_arrow);
-            // Clear the full rotation animation
-            mRefreshViewImage.clearAnimation();
+            mRefreshViewImage.setImageResource(R.mipmap.sport_pulldown);
             // Hide progress bar and arrow.
             mRefreshViewImage.setVisibility(View.GONE);
             mRefreshViewProgress.setVisibility(View.GONE);
@@ -288,15 +268,13 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
                         || mRefreshView.getTop() >= 0)
                         && mRefreshState != RELEASE_TO_REFRESH) {
                     mRefreshViewText.setText(R.string.pull_to_refresh_release_label);
-                    mRefreshViewImage.clearAnimation();
-                    mRefreshViewImage.startAnimation(mFlipAnimation);
+                    mRefreshViewImage.setImageResource(R.mipmap.sport_release);
                     mRefreshState = RELEASE_TO_REFRESH;
                 } else if (mRefreshView.getBottom() < mRefreshViewHeight + 20
                         && mRefreshState != PULL_TO_REFRESH) {
                     mRefreshViewText.setText(R.string.pull_to_refresh_pull_label);
                     if (mRefreshState != TAP_TO_REFRESH) {
-                        mRefreshViewImage.clearAnimation();
-                        mRefreshViewImage.startAnimation(mReverseFlipAnimation);
+                        mRefreshViewImage.setImageResource(R.mipmap.sport_pulldown);
                     }
                     mRefreshState = PULL_TO_REFRESH;
                 }
