@@ -47,11 +47,17 @@
         app:wave_hz="normal"
         app:wave_length="middle" />
 
-    <RelativeLayout
-        android:id="@+id/mainData"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/holo_red_dark" />
 
+        <com.lxf.processcircle.view.PullToRefreshListView
+            android:id="@+id/mainData"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/holo_red_dark"
+            android:divider="@null"
+            android:listSelector="@android:color/transparent"
+            android:overScrollMode="never"
+            android:scrollingCache="false">
+
+        </com.lxf.processcircle.view.PullToRefreshListView>
 </com.lxf.processcircle.view.UpLinearLayout>
 

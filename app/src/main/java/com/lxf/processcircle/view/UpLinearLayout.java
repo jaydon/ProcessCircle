@@ -2,6 +2,7 @@ package com.lxf.processcircle.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
@@ -28,7 +29,6 @@ public class UpLinearLayout extends LinearLayout{
     private int mainNumHeight;
     private int mLastY;
     private int touchSlop; //最小滑动距离
-    private int mainWaveHeight;
     private int mainNumMarginTop;
 
     public UpLinearLayout(Context context, AttributeSet attrs) {
@@ -57,12 +57,13 @@ public class UpLinearLayout extends LinearLayout{
                 break;
             case MotionEvent.ACTION_MOVE:
                 int deltaY = y - mLastY;
-                if(mScroller.getFinalY() >= mainCircleHeight && deltaY < 0) {
+                if((mScroller.getFinalY() <=0 && deltaY > 0) || (mScroller.getFinalY() >= mainCircleHeight && deltaY <= 0 )) {
                     intercepted = false;
-                }  else if(Math.abs(deltaY) > touchSlop) {
+                }  else if((mScroller.getFinalY() <=0 && deltaY <= 0) || (mScroller.getFinalY() >= mainCircleHeight && deltaY >= 0 )){
+                    intercepted = true;
+                } else if(Math.abs(deltaY) > touchSlop) {
                     intercepted = true;
                 }
-
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_POINTER_UP:
@@ -149,7 +150,6 @@ public class UpLinearLayout extends LinearLayout{
                 layoutParams.height = getHeight() - mainNumHeight;
                 mainData.setLayoutParams(layoutParams);
                 mainNumMarginTop = mainNum.getTop();
-                mainWaveHeight = mainWave.getHeight();
             }
         });
     }

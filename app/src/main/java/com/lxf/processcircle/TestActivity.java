@@ -1,21 +1,31 @@
 package com.lxf.processcircle;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.lxf.processcircle.view.MainProgressCircleView;
-import com.lxf.processcircle.view.ProgressCircleView;
+import com.lxf.processcircle.view.PullToRefreshListView;
 import com.lxf.processcircle.view.UpLinearLayout;
 
-public class TestActivity extends AppCompatActivity implements View.OnClickListener{
+import java.util.Arrays;
+import java.util.LinkedList;
+
+public class TestActivity extends AppCompatActivity implements View.OnClickListener {
     private MainProgressCircleView mainCircle;
     private TextView mainNum;
     private UpLinearLayout mainUpLinearLayout;
+    private PullToRefreshListView mPullListView;
+    private LinkedList<String> mListItems;
+    private ArrayAdapter<String> adapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +44,7 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
         });
 
         initView();
+        initData();
     }
 
     private void initView() {
@@ -41,6 +52,25 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
         mainCircle.setOnClickListener(this);
         mainNum = (TextView) findViewById(R.id.mainNum);
         mainUpLinearLayout = (UpLinearLayout) findViewById(R.id.mainUpLinearLayout);
+        mPullListView = (PullToRefreshListView) findViewById(R.id.mainData);
+    }
+
+    private void initData() {
+        mPullListView.setOnRefreshListener(new PullToRefreshListView.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Do work to refresh the list here.
+                new GetDataTask().execute();
+            }
+        });
+
+        mListItems = new LinkedList<String>();
+        mListItems.addAll(Arrays.asList(mStrings));
+
+        adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1, mListItems);
+
+        mPullListView.setAdapter(adapter);
     }
 
     @Override
@@ -51,4 +81,40 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
     }
+
+    private class GetDataTask extends AsyncTask<Void, Void, String[]> {
+
+        @Override
+        protected String[] doInBackground(Void... params) {
+            // Simulates a background job.
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+            }
+            return mStrings;
+        }
+
+        @Override
+        protected void onPostExecute(String[] result) {
+            super.onPostExecute(result);
+            mPullListView.setLastUpdated("刚刚刷新了");
+            mPullListView.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mListItems.addFirst("Added after refresh...");
+                    adapter.notifyDataSetChanged();
+                    // Call onRefreshComplete when the list has been refreshed.
+                    mPullListView.onRefreshComplete();
+
+                }
+            }, 1000);
+        }
+    }
+
+    private String[] mStrings = {
+            "Abbaye de Belloc", "Abbaye du Mont des Cats", "Abertam",
+            "Abondance", "Ackawi", "Acorn", "Adelost", "Affidelice au Chablis",
+            "Afuega'l Pitu", "Airag", "Airedale", "Aisy Cendre",
+            "Allgauer Emmentaler"};
+
 }

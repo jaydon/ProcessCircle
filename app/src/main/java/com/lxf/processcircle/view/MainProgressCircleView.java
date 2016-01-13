@@ -251,7 +251,7 @@ public class MainProgressCircleView extends View{
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         int screenHeight = UiUtils.getScreenHeightPixels(mContext);
         int screenWight = UiUtils.getScreenWidthPixels(mContext);
-        setMeasuredDimension(widthMeasureSpec, (int) (Math.max(screenHeight, screenWight) * 0.5));
+        setMeasuredDimension(widthMeasureSpec, (int) (Math.max(screenHeight, screenWight) * 0.45));
     }
 
     /**
