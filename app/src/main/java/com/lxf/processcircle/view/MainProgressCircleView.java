@@ -23,17 +23,21 @@ import java.math.BigDecimal;
  * Created by Jaydon on 2016/1/10.
  */
 public class MainProgressCircleView extends View{
+    private ObjectAnimator mCircleAnimator, mNowNumAnimator, mTargetNumAnimator, mKilometreAnimator, mKcalAnimator; //属性动画
+    private Bitmap icon, lightSpot;
+    private TextView mainNumTV;
+    private UpLinearLayout upLinearLayout;
     private Context mContext;
-    private int mTotalWidth, mTotalHeight; //控件宽度，高度
-    private int mInCircleColor = Color.WHITE; //里面圆颜色
-    private int mOutCircleColor = Color.WHITE; //外面圆颜色
     private Paint mInCirclePaint; //里面圆画笔
     private Paint mOutCirclePaint; //外面圆画笔
     private Paint mCirclePointPaint; //结束点
     private Paint mBigTextPaint, mSmallTextPaint; //文本的的画笔
+    private RectF mOutCircleRect; //外面圆所绘制区域
+    private int mTotalWidth, mTotalHeight; //控件宽度，高度
+    private int mInCircleColor = Color.WHITE; //里面圆颜色
+    private int mOutCircleColor = Color.WHITE; //外面圆颜色
     private int mBigTextSize = 40, mSmallTextSize = 20;
     private int mTextPadding = 30;
-    private RectF mOutCircleRect; //外面圆所绘制区域
     private int mInCircleWidth = 4, mOutCircleWidth = 8;
     private int mCircleDiameter = 200; //圆的直径 单位是dp
     private int mCircleRadius; //圆的半径
@@ -42,11 +46,7 @@ public class MainProgressCircleView extends View{
     private final int TOTAL_DEGREE = 360;
     private float mTargetNum, mNowNum, mKilometre, mKcal;
     private float progress; //目前进度
-    private ObjectAnimator mCircleAnimator, mNowNumAnimator, mTargetNumAnimator, mKilometreAnimator, mKcalAnimator; //属性动画
-    private Bitmap icon;
     private int iconWidth, iconHeight;
-    private TextView mainNumTV;
-    private UpLinearLayout upLinearLayout;
 
     public MainProgressCircleView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -120,6 +120,7 @@ public class MainProgressCircleView extends View{
         icon = ((BitmapDrawable)mContext.getResources().getDrawable(R.mipmap.sport_walk)).getBitmap();
         iconWidth = icon.getWidth();
         iconHeight = icon.getHeight();
+        lightSpot = ((BitmapDrawable)mContext.getResources().getDrawable(R.mipmap.sport_lightspot)).getBitmap();
     }
 
     @Override
@@ -137,7 +138,7 @@ public class MainProgressCircleView extends View{
      * @param canvas
      */
     private void drawBg(Canvas canvas) {
-        int color = Color.WHITE;
+        int color = Color.RED;
         if(progress < 0.5) {
             color = Color.BLUE;
         } else if(progress < 0.8) {
@@ -169,7 +170,8 @@ public class MainProgressCircleView extends View{
         canvas.translate(centerX, centerY - mCircleRadius);
         float degree = progress * TOTAL_DEGREE;
         canvas.rotate(degree, 0, mCircleRadius);
-        canvas.drawPoint(0, 0, mCirclePointPaint);
+//        canvas.drawPoint(0, 0, mCirclePointPaint);
+        canvas.drawBitmap(lightSpot, -(lightSpot.getWidth() >> 1), -(lightSpot.getHeight() >> 1), mCirclePointPaint);
         canvas.restore();
     }
 
