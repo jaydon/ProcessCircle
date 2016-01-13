@@ -80,6 +80,7 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
                 Toast.makeText(TestActivity.this, position + "", Toast.LENGTH_SHORT).show();
             }
         });
+        mPullListView.onRefresh();
     }
 
     @Override

@@ -57,9 +57,9 @@ public class UpLinearLayout extends LinearLayout{
                 break;
             case MotionEvent.ACTION_MOVE:
                 int deltaY = y - mLastY;
-                if((mScroller.getFinalY() <=0 && deltaY > 0) || (mScroller.getFinalY() >= mainCircleHeight && deltaY <= 0 )) {
+                if((mScroller.getFinalY() <=0 && deltaY >= 0) || (mScroller.getFinalY() >= mainCircleHeight && deltaY <= 0 )) {
                     intercepted = false;
-                }  else if((mScroller.getFinalY() <=0 && deltaY <= 0) || (mScroller.getFinalY() >= mainCircleHeight && deltaY >= 0 )){
+                }  else if((mScroller.getFinalY() <=0 && deltaY < 0) || (mScroller.getFinalY() >= mainCircleHeight && deltaY > 0 )){
                     intercepted = true;
                 } else if(Math.abs(deltaY) > touchSlop) {
                     intercepted = true;
