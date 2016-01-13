@@ -14,6 +14,13 @@ public class UiUtils {
         return dm.widthPixels;
     }
 
+    public static  int getScreenHeightPixels(Context context) {
+        DisplayMetrics dm = new DisplayMetrics();
+        ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay()
+                .getMetrics(dm);
+        return dm.heightPixels;
+    }
+
     static public int dipToPx(Context context, int dip) {
         return (int) (dip * getScreenDensity(context) + 0.5f);
     }

@@ -239,9 +239,19 @@ public class MainProgressCircleView extends View{
         super.onSizeChanged(w, h, oldw, oldh);
         mTotalWidth = w;
         mTotalHeight = h;
+        mCircleDiameter = (int) (Math.min(w, h) * 0.7);
+        mCircleRadius = mCircleDiameter >> 1;
         centerX = w >> 1;
         centerY = (int) (getY() + getPaddingTop() + mCircleRadius);
         mOutCircleRect = new RectF(centerX - mCircleRadius, centerY - mCircleRadius, centerX + mCircleRadius, centerY + mCircleRadius);
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        int screenHeight = UiUtils.getScreenHeightPixels(mContext);
+        int screenWight = UiUtils.getScreenWidthPixels(mContext);
+        setMeasuredDimension(widthMeasureSpec, (int) (Math.max(screenHeight, screenWight) * 0.5));
     }
 
     /**

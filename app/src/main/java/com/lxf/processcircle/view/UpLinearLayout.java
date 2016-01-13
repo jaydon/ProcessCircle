@@ -23,11 +23,12 @@ public class UpLinearLayout extends LinearLayout{
     private MainProgressCircleView mainCircle;
     private TextView mainNum;
     private View mainData;
+    private View mainWave;
     private int mainCircleHeight;
     private int mainNumHeight;
     private int mLastY;
     private int touchSlop; //最小滑动距离
-    private View mainWave;
+    private int mainWaveHeight;
     private int mainNumMarginTop;
 
     public UpLinearLayout(Context context, AttributeSet attrs) {
@@ -148,6 +149,7 @@ public class UpLinearLayout extends LinearLayout{
                 layoutParams.height = getHeight() - mainNumHeight;
                 mainData.setLayoutParams(layoutParams);
                 mainNumMarginTop = mainNum.getTop();
+                mainWaveHeight = mainWave.getHeight();
             }
         });
     }
@@ -171,13 +173,12 @@ public class UpLinearLayout extends LinearLayout{
             float alpha = (mScroller.getCurrY() / (float)mainCircleHeight);
             mainCircle.setAlpha(1 - alpha);
             mainNum.setY(mainNumMarginTop + (mainCircleHeight - mainNumMarginTop) * alpha);
-//        mainCircle.setScaleY(1 - alpha);
-//        mainWave.setAlpha(1 - alpha);
-//        if (alpha < 1) {
-//            mainWave.setVisibility(View.VISIBLE);
-//        } else {
-//            mainWave.setVisibility(View.INVISIBLE);
-//        }
+            mainWave.setAlpha(1 - alpha);
+            if (alpha < 1) {
+                mainWave.setVisibility(View.VISIBLE);
+            } else {
+                mainWave.setVisibility(View.GONE);
+            }
             //这里调用View的scrollTo()完成实际的滚动
             scrollTo(mScroller.getCurrX(), mScroller.getCurrY());
             postInvalidate();

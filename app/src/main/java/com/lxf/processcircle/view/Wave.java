@@ -13,9 +13,9 @@ import com.lxf.processcircle.utils.UiUtils;
 
 // y=Asin(ωx+φ)+k
 class Wave extends View {
-    private int WAVE_HEIGHT_LARGE = 16;
-    private int WAVE_HEIGHT_MIDDLE = 10;
-    private int WAVE_HEIGHT_LITTLE = 8;
+    private int WAVE_HEIGHT_LARGE = 10;
+    private int WAVE_HEIGHT_MIDDLE = 8;
+    private int WAVE_HEIGHT_LITTLE = 6;
 
     private final float WAVE_LENGTH_MULTIPLE_LARGE = 1.5f;
     private final float WAVE_LENGTH_MULTIPLE_MIDDLE = 1f;
@@ -83,6 +83,17 @@ class Wave extends View {
         canvas.drawPath(mThirdWavePath, mThirdWavePaint);
     }
 
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        WAVE_HEIGHT_LARGE = (int) (h * 0.6);
+        WAVE_HEIGHT_MIDDLE = (int) (h * 0.4);
+        WAVE_HEIGHT_LITTLE = (int) (h * 0.2);
+        mWaveHeight = getWaveHeight(WaveView.LARGE);
+        mBlowWaveHeight = getWaveHeight(WaveView.LITTLE);
+        mThirdWaveHeight = getWaveHeight(WaveView.MIDDLE);
+    }
+
     public void setAboveWaveColor(int aboveWaveColor) {
         this.mAboveWaveColor = aboveWaveColor;
     }
@@ -109,9 +120,6 @@ class Wave extends View {
 
     public void initializeWaveSize(int waveMultiple, int waveHeight, int waveHz) {
         mWaveMultiple = getWaveMultiple(waveMultiple);
-        mWaveHeight = getWaveHeight(waveHeight);
-        mBlowWaveHeight = getWaveHeight(WaveView.LITTLE);
-        mThirdWaveHeight = getWaveHeight(WaveView.MIDDLE);
         mWaveHz = getWaveHz(waveHz);
         mBlowOffset = mBlowWaveHeight * 0.4f;
         mThirdOffSet = mThirdWaveHeight * 0.4f;
