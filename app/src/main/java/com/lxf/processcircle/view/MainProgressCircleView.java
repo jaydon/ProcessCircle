@@ -117,7 +117,7 @@ public class MainProgressCircleView extends View{
      */
     private void initData() {
         mCircleRadius = mCircleDiameter >> 1;
-        icon = ((BitmapDrawable)mContext.getResources().getDrawable(R.mipmap.ic_launcher)).getBitmap();
+        icon = ((BitmapDrawable)mContext.getResources().getDrawable(R.mipmap.sport_walk)).getBitmap();
         iconWidth = icon.getWidth();
         iconHeight = icon.getHeight();
     }
