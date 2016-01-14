@@ -4,4 +4,6 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="holo_purple">#ffaa66cc</color>
+    <color name="sport_night">#2791C0</color>
+    <color name="sport_day">#00BAFC</color>
 </resources>

@@ -126,7 +126,7 @@ public class MainProgressCircleView extends View{
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        drawBg(canvas);
+//        drawBg(canvas);
         drawCircle(canvas);
         drawCirclePaint(canvas);
         drawBitMap(canvas);
@@ -210,7 +210,7 @@ public class MainProgressCircleView extends View{
         Paint.FontMetrics smallFontMetrics = mSmallTextPaint.getFontMetrics();
         fontTotalHeight = smallFontMetrics.bottom - smallFontMetrics.top;
         float smallY = fontTotalHeight / 2 - smallFontMetrics.bottom;
-        float smallTextY = centerY + bigY / 2 + mTextPadding ;
+        float smallTextY = centerY + bigY / 2 + mTextPadding + getPaddingTop();
         //计算小文字宽度
         int smallX = getTextWidth(mSmallTextPaint, smallStr);
         int smallTextX = centerX - smallX / 2;
@@ -218,7 +218,7 @@ public class MainProgressCircleView extends View{
 
         //绘制公里
         String kilometreStr = round(mKilometre, 2,BigDecimal.ROUND_UP) + "";
-        smallTextY = centerY + mCircleRadius + mTextPadding;
+        smallTextY = centerY + mCircleRadius + mTextPadding * 1.3f;
         smallTextX = centerX - mCircleRadius * 4 / 5;
         canvas.drawText(kilometreStr, smallTextX, smallTextY, mSmallTextPaint);
         //绘制大卡
@@ -227,7 +227,7 @@ public class MainProgressCircleView extends View{
         canvas.drawText(kcalStr, smallTextX, smallTextY, mSmallTextPaint);
 
         //绘制公里单位
-        smallTextY = centerY + mCircleRadius + mTextPadding + fontTotalHeight;
+        smallTextY = centerY + mCircleRadius + mTextPadding + fontTotalHeight * 1.3f;
         smallTextX = centerX - mCircleRadius * 5 / 6;
         canvas.drawText("公里", smallTextX, smallTextY, mSmallTextPaint);
         //绘制大卡单位

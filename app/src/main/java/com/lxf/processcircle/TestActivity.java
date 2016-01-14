@@ -2,6 +2,7 @@ package com.lxf.processcircle;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -9,25 +10,22 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.lxf.processcircle.view.MainProgressCircleView;
-import com.lxf.processcircle.view.PullToRefreshListView;
 import com.lxf.processcircle.view.UpLinearLayout;
+import com.lxf.processcircle.view.XListView;
 
 import java.util.Arrays;
 import java.util.LinkedList;
 
-public class TestActivity extends AppCompatActivity implements View.OnClickListener {
+public class TestActivity extends AppCompatActivity implements View.OnClickListener, XListView.IXListViewListener {
     private MainProgressCircleView mainCircle;
-    private TextView mainNum;
     private UpLinearLayout mainUpLinearLayout;
-    private PullToRefreshListView mPullListView;
+    private XListView mPullListView;
     private LinkedList<String> mListItems;
     private ArrayAdapter<String> adapter;
+    private Handler mHandler;
 
 
     @Override
@@ -53,19 +51,13 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
     private void initView() {
         mainCircle = (MainProgressCircleView) findViewById(R.id.mainCircle);
         mainCircle.setOnClickListener(this);
-        mainNum = (TextView) findViewById(R.id.mainNum);
         mainUpLinearLayout = (UpLinearLayout) findViewById(R.id.mainUpLinearLayout);
-        mPullListView = (PullToRefreshListView) findViewById(R.id.mainListView);
+        mPullListView = (XListView) findViewById(R.id.mainListView);
     }
 
     private void initData() {
-        mPullListView.setOnRefreshListener(new PullToRefreshListView.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                // Do work to refresh the list here.
-                new GetDataTask().execute();
-            }
-        });
+        mPullListView.setPullLoadEnable(false);
+        mPullListView.setXListViewListener(this);
 
         mListItems = new LinkedList<String>();
         mListItems.addAll(Arrays.asList(mStrings));
@@ -80,7 +72,7 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
                 Toast.makeText(TestActivity.this, position + "", Toast.LENGTH_SHORT).show();
             }
         });
-        mPullListView.onRefresh();
+        mHandler = new Handler();
     }
 
     @Override
@@ -92,34 +84,43 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private class GetDataTask extends AsyncTask<Void, Void, String[]> {
+    private void onLoad() {
+        adapter.insert("refresh", 0);
+        adapter.notifyDataSetChanged();
+        mPullListView.stopRefresh("加载成功", true);
+    }
 
-        @Override
-        protected String[] doInBackground(Void... params) {
-            // Simulates a background job.
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
+    @Override
+    public void onRefresh() {
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // mAdapter.notifyDataSetChanged();
+                onLoad();
             }
-            return mStrings;
-        }
+        }, 2000);
+    }
 
-        @Override
-        protected void onPostExecute(String[] result) {
-            super.onPostExecute(result);
-            mPullListView.setLastUpdated("刚刚刷新了");
-            mPullListView.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    mPullListView.setLastUpdated(getString(R.string.pull_to_refresh_pull_label));
-                    mListItems.addFirst("Added after refresh...");
-                    adapter.notifyDataSetChanged();
-                    // Call onRefreshComplete when the list has been refreshed.
-                    mPullListView.onRefreshComplete();
+    @Override
+    public void onLoadMore() {
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                onLoad();
+            }
+        }, 2000);
+    }
 
-                }
-            }, 1000);
-        }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        mPullListView.startRefresh();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     private String[] mStrings = {

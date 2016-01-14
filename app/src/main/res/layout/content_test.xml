@@ -1,57 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.lxf.processcircle.view.UpLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/mainUpLinearLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/darker_gray"
+    android:background="@color/sport_day"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".MainActivity"
     tools:showIn="@layout/activity_main">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:paddingTop="7.5dp"
+        android:paddingBottom="10dp"
+        android:textSize="18sp"
+        android:text="主页"/>
 
-    <RelativeLayout
+    <com.lxf.processcircle.view.UpLinearLayout
+        android:id="@+id/mainUpLinearLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <com.lxf.processcircle.view.MainProgressCircleView
-            android:id="@+id/mainCircle"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingTop="20dp" />
+            android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/mainNum"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="75dp"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp"
-            android:text="0"
-            android:textColor="@android:color/white"
-            android:textSize="40sp" />
-    </RelativeLayout>
-    <RelativeLayout
-        android:id="@+id/mainData"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <com.lxf.processcircle.view.PullToRefreshListView
-            android:id="@+id/mainListView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@android:color/white"
-            android:divider="@null"
-            android:listSelector="@android:color/transparent"
-            android:overScrollMode="never"
-            android:scrollingCache="false"
-            android:scrollbars="none"
-            android:paddingTop="10dp"/>
+            <com.lxf.processcircle.view.MainProgressCircleView
+                android:id="@+id/mainCircle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingTop="15dp"
+                android:background="@mipmap/sport_halo" />
+
+            <TextView
+                android:id="@+id/mainNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="75dp"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="0"
+                android:textColor="@android:color/white"
+                android:textSize="40sp" />
+        </RelativeLayout>
         <com.lxf.processcircle.view.WaveView
             android:id="@+id/mainWave"
             android:layout_width="match_parent"
-            android:layout_height="10dp"
+            android:layout_height="20dp"
+            android:background="@android:color/transparent"
             app:above_wave_color="@color/holo_purple"
             app:blow_wave_color="@color/holo_purple"
             app:third_wave_color="@color/holo_purple"
@@ -59,8 +59,25 @@
             app:wave_height="large"
             app:wave_hz="slow"
             app:wave_length="middle" />
-    </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/mainData"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <com.lxf.processcircle.view.XListView
+                android:id="@+id/mainListView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/white"
+                android:divider="@null"
+                android:listSelector="@android:color/transparent"
+                android:overScrollMode="never"
+                android:scrollingCache="false"
+                android:scrollbars="none"
+                android:paddingTop="10dp"/>
+        </RelativeLayout>
 
 
-</com.lxf.processcircle.view.UpLinearLayout>
+    </com.lxf.processcircle.view.UpLinearLayout>
 
+
+</LinearLayout>
